@@ -12,10 +12,7 @@ export class SidebarComponent {
     return this.GifsService.history;
   }
 
-  constructor(private GifsService: GifsService) {
-
-    console.log(history);
-  }
+  constructor(private GifsService: GifsService) { }
 
 
 }
