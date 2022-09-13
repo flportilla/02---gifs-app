@@ -16,7 +16,11 @@ export class GifsService {
     return [...this._history]
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this._history = JSON.parse(localStorage.getItem('history')!) || []
+    this.results = JSON.parse(localStorage.getItem('results')!) || []
+
+  }
 
   searchGifs(query: string = '') {
 
@@ -25,11 +29,15 @@ export class GifsService {
     if (!this._history.includes(query)) {
       this._history.unshift(query)
       this._history = this._history.splice(0, 9)
+
+      localStorage.setItem('history', JSON.stringify(this._history))
+
     }
 
     this.http.get<GifsResponse>(`${this.apiUrl}${this.apiKey}&q=${query}&limit=10`)
       .subscribe(res => {
         this.results = res.data
+        localStorage.setItem('results', JSON.stringify(res.data))
       })
 
 
